@@ -118,27 +118,38 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		msg += fmt.Sprintf("\n(%d, %d) touch %d", x, y, t)
 	}
 
-	bgColor := js.Global().Get("bg_color").String()                  //	String 	Optional. Background color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-bg-color).
-	textColor := js.Global().Get("text_color").String()              //	String 	Optional. Main text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-text-color).
-	hintColor := js.Global().Get("hint_color").String()              //	String 	Optional. Hint text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-hint-color).
-	linkColor := js.Global().Get("link_color").String()              //	String 	Optional. Link color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-link-color).
-	buttonColor := js.Global().Get("button_color").String()          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
-	buttonTextColor := js.Global().Get("button_text_color").String() //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
+	ebitenutil.DebugPrint(screen, msg)
+
+	// window.Telegram.WebApp
+	window := js.Global().Get("window")
+	if window.IsUndefined() {
+		return
+	}
+	webapp := window.Get("Telegram").Get("WebApp")
+
+	bgColor := webapp.Get("bg_color").String()                  //	String 	Optional. Background color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-bg-color).
+	textColor := webapp.Get("text_color").String()              //	String 	Optional. Main text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-text-color).
+	hintColor := webapp.Get("hint_color").String()              //	String 	Optional. Hint text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-hint-color).
+	linkColor := webapp.Get("link_color").String()              //	String 	Optional. Link color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-link-color).
+	buttonColor := webapp.Get("button_color").String()          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
+	buttonTextColor := webapp.Get("button_text_color").String() //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
 
 	colors := []string{bgColor, textColor, hintColor, linkColor, buttonColor, buttonTextColor}
 	for i, colorStr := range colors {
 		c, err := csscolorparser.Parse(colorStr)
 		if err != nil {
-			ebitenutil.DebugPrint(screen, err.Error())
+			ebitenutil.DebugPrintAt(screen, err.Error(), 100, 40+(100*i))
 			c.R = float64(uint8(rand.Intn(math.MaxUint8))) / float64(math.MaxUint8)
 			c.G = float64(uint8(rand.Intn(math.MaxUint8))) / float64(math.MaxUint8)
 			c.B = float64(uint8(rand.Intn(math.MaxUint8))) / float64(math.MaxUint8)
 			c.A = float64(uint8(rand.Intn(math.MaxUint8))) / float64(math.MaxUint8)
 		}
 		ebitenutil.DrawRect(screen, 100, 100*float64(i), 100, 100, c)
+		ebitenutil.DebugPrintAt(screen, colorStr, 100, 100*i)
 	}
 
-	ebitenutil.DebugPrint(screen, msg)
+	scheme := webapp.Get("colorScheme")
+	ebitenutil.DebugPrintAt(screen, scheme.String(), 0, 700)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {

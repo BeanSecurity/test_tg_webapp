@@ -10,12 +10,19 @@ import (
 )
 
 func main() {
-	bgColor := js.Global().Get("bg_color").String()                  //	String 	Optional. Background color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-bg-color).
-	textColor := js.Global().Get("text_color").String()              //	String 	Optional. Main text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-text-color).
-	hintColor := js.Global().Get("hint_color").String()              //	String 	Optional. Hint text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-hint-color).
-	linkColor := js.Global().Get("link_color").String()              //	String 	Optional. Link color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-link-color).
-	buttonColor := js.Global().Get("button_color").String()          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
-	buttonTextColor := js.Global().Get("button_text_color").String() //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
+	// window.Telegram.WebApp
+	window := js.Global().Get("window")
+	if window.IsUndefined() {
+		return
+	}
+	webapp := window.Get("Telegram").Get("WebApp")
+
+	bgColor := webapp.Get("bg_color").String()                  //	String 	Optional. Background color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-bg-color).
+	textColor := webapp.Get("text_color").String()              //	String 	Optional. Main text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-text-color).
+	hintColor := webapp.Get("hint_color").String()              //	String 	Optional. Hint text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-hint-color).
+	linkColor := webapp.Get("link_color").String()              //	String 	Optional. Link color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-link-color).
+	buttonColor := webapp.Get("button_color").String()          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
+	buttonTextColor := webapp.Get("button_text_color").String() //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
 
 	fmt.Println("bgColor", bgColor)
 	fmt.Println("textColor", textColor)
@@ -24,22 +31,23 @@ func main() {
 	fmt.Println("buttonColor", buttonColor)
 	fmt.Println("buttonTextColor", buttonTextColor)
 
-	windowTelegramWebApp := js.Global().Get("window.Telegram.WebApp") //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
-	fmt.Println("windowTelegramWebApp", windowTelegramWebApp.String())
-
 	screen := js.Global().Get("screen")
 
-	if windowTelegramWebApp.IsUndefined() {
+	if webapp.IsUndefined() {
 		game.ScreenHeight = 1080
 	} else {
-		game.ScreenHeight = windowTelegramWebApp.Get("viewportHeight").Int()
+		game.ScreenHeight = webapp.Get("viewportHeight").Int()
 	}
-	game.ScreenWidth = screen.Get("width").Int()
+	game.ScreenWidth = 2 * screen.Get("width").Int()
 
 	fmt.Printf("game.ScreenHeight: %+#v\n", game.ScreenHeight) // DEBUG: dump var
 	fmt.Printf("game.ScreenWidth: %+#v\n", game.ScreenWidth)   // DEBUG: dump var
 
-	ebiten.SetWindowSize(game.ScreenWidth, game.ScreenHeight)
+	game.ScreenHeight = 800
+	game.ScreenWidth = 400
+
+	// ebiten.SetWindowSize(game.ScreenWidth, game.ScreenHeight)
+	ebiten.SetWindowSize(400, 800)
 	ebiten.SetWindowTitle("Paint (Ebiten Demo)")
 	if err := ebiten.RunGame(game.NewGame()); err != nil {
 		log.Fatal(err)
