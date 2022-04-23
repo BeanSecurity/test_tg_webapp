@@ -2,7 +2,10 @@ module github.com/BeanSecurity/test_tg_webapp
 
 go 1.18
 
-require github.com/hajimehoshi/ebiten/v2 v2.2.7
+require (
+	github.com/hajimehoshi/ebiten/v2 v2.2.7
+	github.com/mazznoer/csscolorparser v0.1.2
+)
 
 require (
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20210727001814-0db043d8d5be // indirect
