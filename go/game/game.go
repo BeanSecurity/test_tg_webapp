@@ -126,13 +126,16 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		return
 	}
 	webapp := window.Get("Telegram").Get("WebApp")
+	fmt.Printf("webapp.String(): %+#v\n", webapp.String()) // DEBUG: dump var
 
-	bgColor := webapp.Get("bg_color").String()                  //	String 	Optional. Background color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-bg-color).
-	textColor := webapp.Get("text_color").String()              //	String 	Optional. Main text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-text-color).
-	hintColor := webapp.Get("hint_color").String()              //	String 	Optional. Hint text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-hint-color).
-	linkColor := webapp.Get("link_color").String()              //	String 	Optional. Link color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-link-color).
-	buttonColor := webapp.Get("button_color").String()          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
-	buttonTextColor := webapp.Get("button_text_color").String() //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
+	themeParams := webapp.Get("themeParams")
+
+	bgColor := themeParams.Get("bg_color").String()                  //	String 	Optional. Background color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-bg-color).
+	textColor := themeParams.Get("text_color").String()              //	String 	Optional. Main text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-text-color).
+	hintColor := themeParams.Get("hint_color").String()              //	String 	Optional. Hint text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-hint-color).
+	linkColor := themeParams.Get("link_color").String()              //	String 	Optional. Link color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-link-color).
+	buttonColor := themeParams.Get("button_color").String()          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
+	buttonTextColor := themeParams.Get("button_text_color").String() //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
 
 	colors := []string{bgColor, textColor, hintColor, linkColor, buttonColor, buttonTextColor}
 	for i, colorStr := range colors {
