@@ -73,7 +73,14 @@ func main() {
 
 	divEl := doc.Call("getElementById", "colors")
 
-	colors := [6]string{"#F4908E", "#F2F097", "#88B0DC", "#F7B5D1", "#53C4AF", "#FDE38C"}
+	bgColor := js.Global().Get("bg_color")                  //	String 	Optional. Background color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-bg-color).
+	textColor := js.Global().Get("text_color")              //	String 	Optional. Main text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-text-color).
+	hintColor := js.Global().Get("hint_color")              //	String 	Optional. Hint text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-hint-color).
+	linkColor := js.Global().Get("link_color")              //	String 	Optional. Link color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-link-color).
+	buttonColor := js.Global().Get("button_color")          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
+	buttonTextColor := js.Global().Get("button_text_color") //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
+
+	colors := [6]string{bgColor, textColor, hintColor, linkColor, buttonColor, buttonTextColor}
 
 	for _, x := range colors {
 		node := doc.Call("createElement", "div")
