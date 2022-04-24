@@ -137,6 +137,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	buttonColor := themeParams.Get("button_color").String()          //	String 	Optional. Button color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-color).
 	buttonTextColor := themeParams.Get("button_text_color").String() //	String 	Optional. Button text color in the #RRGGBB format.	Also available as the CSS variable var(--tg-theme-button-text-color).
 
+	colorNames := []string{"bg_color",
+		"text_color",
+		"hint_color",
+		"link_color",
+		"button_color",
+		"button_text_color",
+	}
+
 	colors := []string{bgColor, textColor, hintColor, linkColor, buttonColor, buttonTextColor}
 	for i, colorStr := range colors {
 		c, err := csscolorparser.Parse(colorStr)
@@ -147,12 +155,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			c.B = float64(uint8(rand.Intn(math.MaxUint8))) / float64(math.MaxUint8)
 			c.A = float64(uint8(rand.Intn(math.MaxUint8))) / float64(math.MaxUint8)
 		}
-		ebitenutil.DrawRect(screen, 100, 100*float64(i), 100, 100, c)
-		ebitenutil.DebugPrintAt(screen, colorStr, 100, 100*i)
+		const sqrSize = 60
+		ebitenutil.DrawRect(screen, 100, sqrSize*float64(i), sqrSize, sqrSize, c)
+		ebitenutil.DebugPrintAt(screen, colorStr, 100, sqrSize*i)
+		ebitenutil.DebugPrintAt(screen, colorNames[i], 100, 10+sqrSize*i)
 	}
 
 	scheme := webapp.Get("colorScheme")
-	ebitenutil.DebugPrintAt(screen, scheme.String(), 0, 700)
+	ebitenutil.DebugPrintAt(screen, scheme.String(), 0, 360)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
