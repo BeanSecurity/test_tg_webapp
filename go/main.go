@@ -32,7 +32,11 @@ func main() {
 	fmt.Println("buttonColor", buttonColor)
 	fmt.Println("buttonTextColor", buttonTextColor)
 
-	screen := js.Global().Get("screen")
+	// screen := js.Global().Get("screen")
+
+	// document.documentElement.clientHeight
+	docEl := js.Global().Get("document").Get("documentElement")
+	// screen := js.Global().Get("window")
 
 	// if webapp.IsUndefined() {
 	// 	game.ScreenHeight = 2 * 1080
@@ -40,14 +44,11 @@ func main() {
 	// 	game.ScreenHeight = webapp.Get("viewportHeight").Int()
 	// }
 
-	fmt.Printf("screen.Get(\"width\").Int(): %+#v\n", screen.Get("width").Int())   // DEBUG: dump var
-	fmt.Printf("screen.Get(\"height\").Int(): %+#v\n", screen.Get("height").Int()) // DEBUG: dump var
-
+	// document.documentElement.clientHeight
+	game.ScreenHeight = docEl.Get("clientHeight").Int()
+	game.ScreenWidth = docEl.Get("clientWidth").Int()
 	fmt.Printf("game.ScreenHeight: %+#v\n", game.ScreenHeight) // DEBUG: dump var
 	fmt.Printf("game.ScreenWidth: %+#v\n", game.ScreenWidth)   // DEBUG: dump var
-
-	game.ScreenHeight = screen.Get("height").Int()
-	game.ScreenWidth = screen.Get("width").Int()
 
 	// game.ScreenHeight = 800
 	// game.ScreenWidth = 400
