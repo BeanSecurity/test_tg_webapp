@@ -34,15 +34,20 @@ func main() {
 
 	screen := js.Global().Get("screen")
 
-	if webapp.IsUndefined() {
-		game.ScreenHeight = 1080
-	} else {
-		game.ScreenHeight = webapp.Get("viewportHeight").Int()
-	}
-	game.ScreenWidth = 2 * screen.Get("width").Int()
+	// if webapp.IsUndefined() {
+	// 	game.ScreenHeight = 2 * 1080
+	// } else {
+	// 	game.ScreenHeight = webapp.Get("viewportHeight").Int()
+	// }
+
+	fmt.Printf("screen.Get(\"width\").Int(): %+#v\n", screen.Get("width").Int())   // DEBUG: dump var
+	fmt.Printf("screen.Get(\"height\").Int(): %+#v\n", screen.Get("height").Int()) // DEBUG: dump var
 
 	fmt.Printf("game.ScreenHeight: %+#v\n", game.ScreenHeight) // DEBUG: dump var
 	fmt.Printf("game.ScreenWidth: %+#v\n", game.ScreenWidth)   // DEBUG: dump var
+
+	game.ScreenHeight = screen.Get("height").Int()
+	game.ScreenWidth = screen.Get("width").Int()
 
 	// game.ScreenHeight = 800
 	// game.ScreenWidth = 400
